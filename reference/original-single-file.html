@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Little World of Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Tajawal:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff6ee;--bg2:#fbe3ea;--bg3:#e3dbf7;--ink:#3a2447;--soft:#6b5578;--gold:#b8924f;--card:rgba(255,255,255,.72);--line:rgba(184,146,79,.35);--night1:#2a1840;--night2:#4a2d63;--on-night:#fff3e3;
+--display:"Amiri","Cormorant Garamond",serif;--body:"Tajawal","Cormorant Garamond",system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#fff6ee;--ink:#3a2447}}
+:root[data-theme="dark"]{--bg:#fff6ee;--ink:#3a2447}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 1.05rem/1.8 var(--body);overflow-x:hidden}
+html[lang=en] body{font-family:"Cormorant Garamond",var(--body);font-size:1.2rem}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.25;margin:0 0 .6em}
+html[lang=en] h1,html[lang=en] h2,html[lang=en] h3{font-weight:500;font-style:italic}
+h1{font-size:clamp(2.3rem,10vw,4.6rem)}h2{font-size:clamp(1.7rem,6.5vw,2.6rem)}h3{font-size:1.3rem}
+p{margin:0 0 1em}
+button{font:inherit;cursor:pointer;min-height:48px;padding:.6em 1.4em;border-radius:999px;border:1.5px solid var(--gold);background:transparent;color:inherit;transition:transform .2s,background .2s}
+button:hover{background:rgba(184,146,79,.14)}button:active{transform:scale(.97)}
+.primary{background:var(--ink);color:var(--on-night);border-color:var(--ink)}.primary:hover{background:#51336a}
+:focus-visible{outline:3px solid #7a4fc2;outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.top{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);inset-inline-end:10px;z-index:30;display:flex;gap:8px}
+.top button{min-height:44px;min-width:44px;padding:.3em .9em;background:var(--card);backdrop-filter:blur(8px);font-size:.95rem}
+section{padding:clamp(56px,12vw,110px) 20px;position:relative}
+.wrap{max-width:720px;margin:0 auto;text-align:center}
+
+/* GATE */
+#gate{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;text-align:center;color:var(--on-night);
+background:radial-gradient(900px 500px at 50% 20%,#6b3f8c 0,transparent 70%),linear-gradient(170deg,var(--night1),var(--night2));transition:opacity .9s,visibility .9s}
+#gate.gone{opacity:0;visibility:hidden}
+.stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 12% 18%,#fff 50%,transparent),radial-gradient(1px 1px at 80% 12%,#fff 50%,transparent),radial-gradient(2px 2px at 65% 70%,#f6dfae 50%,transparent),radial-gradient(1px 1px at 25% 78%,#fff 50%,transparent),radial-gradient(1.5px 1.5px at 90% 45%,#fff 50%,transparent),radial-gradient(1px 1px at 40% 40%,#fff 50%,transparent);animation:tw 4s ease-in-out infinite alternate}
+@keyframes tw{to{opacity:.45}}
+.env{position:relative;width:min(240px,64vw);aspect-ratio:1.4;margin:6px 0 4px;filter:drop-shadow(0 20px 30px rgba(0,0,0,.35))}
+.env .back{position:absolute;inset:0;background:#f3d2dc;border-radius:8px}
+.env .card{position:absolute;inset:10% 8% 14%;background:var(--bg);border-radius:6px;display:grid;place-items:center;color:var(--gold);font-size:2.2rem;transition:transform .9s .35s cubic-bezier(.2,.8,.2,1)}
+.env .front{position:absolute;inset:0;background:linear-gradient(135deg,transparent 49.5%,#f8e1e8 50%) left/50% 100% no-repeat,linear-gradient(225deg,transparent 49.5%,#f8e1e8 50%) right/50% 100% no-repeat;border-radius:8px;clip-path:polygon(0 100%,0 40%,50% 72%,100% 40%,100% 100%)}
+.env .front{background:#f8e1e8}
+.env .flap{position:absolute;inset:0 0 auto;height:58%;background:#e9b9c8;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .7s}
+.env .seal{position:absolute;top:44%;left:50%;width:34px;height:34px;margin:-17px;border-radius:50%;background:var(--gold);z-index:3;display:grid;place-items:center;font-size:1rem;transition:opacity .3s}
+#gate.opening .flap{transform:rotateX(180deg)}#gate.opening .seal{opacity:0}#gate.opening .card{transform:translateY(-46%) scale(1.1)}
+#gate h2{color:var(--on-night);margin:0}#gate p{opacity:.85;margin:0}
+.gate-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative}
+.gate-btns .skip{color:var(--on-night);border-color:rgba(255,243,227,.5)}
+.gate-btns .primary{background:var(--gold);border-color:var(--gold);color:#2a1840}
+
+/* HERO */
+#hero{min-height:100svh;display:grid;place-items:center;background:radial-gradient(600px 400px at 85% 10%,var(--bg3),transparent 70%),radial-gradient(500px 400px at 5% 90%,var(--bg2),transparent 70%),var(--bg)}
+.orb{position:absolute;border-radius:50%;filter:blur(2px);opacity:.7;animation:fl 9s ease-in-out infinite alternate}
+@keyframes fl{to{transform:translateY(-22px)}}
+.hero-name{display:block;color:var(--gold)}
+.lead{font-size:1.15em;color:var(--soft);max-width:34ch;margin-inline:auto}
+.ring{width:84px;height:84px;margin:0 auto 18px;border:1.5px solid var(--line);border-radius:50%;display:grid;place-items:center;font-size:2rem}
+
+/* COUNTDOWN */
+#count{background:linear-gradient(180deg,var(--bg),var(--bg2))}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(6px,2vw,14px);direction:ltr}
+.cd div{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 4px}
+.cd b{display:block;font:700 clamp(1.6rem,8vw,2.8rem)/1.1 var(--display);font-variant-numeric:tabular-nums}
+.cd span{font-size:.85rem;color:var(--soft)}
+.note{color:var(--soft);font-size:.95rem}
+
+/* CAKE */
+#cake{background:linear-gradient(180deg,var(--bg2),var(--bg3))}
+.cakebox{position:relative;width:min(280px,76vw);margin:36px auto 18px;padding-top:70px}
+.candles{position:absolute;top:0;inset-inline:0;display:flex;justify-content:center;gap:clamp(14px,6vw,26px);direction:ltr}
+.candle{position:relative;width:44px;height:84px;padding:0;min-height:44px;border:0;background:none;border-radius:8px}
+.candle:hover{background:none}
+.candle i{position:absolute;bottom:0;left:50%;width:10px;height:44px;margin-left:-5px;border-radius:3px;background:repeating-linear-gradient(135deg,#fff 0 6px,#e9a8bd 6px 12px)}
+.candle .fl{position:absolute;bottom:42px;left:50%;width:14px;height:24px;margin-left:-7px;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;background:radial-gradient(circle at 50% 70%,#fff6c9,#ffc24d 60%,#ff8a3d);box-shadow:0 0 18px 6px rgba(255,190,80,.55);animation:fk .35s ease-in-out infinite alternate;transform-origin:50% 100%}
+@keyframes fk{to{transform:scale(.9,1.08) rotate(-3deg)}}
+.candle.out .fl{animation:none;opacity:0;transform:scale(.2);transition:all .35s}
+.candle.out::after{content:"";position:absolute;bottom:88px;left:50%;width:6px;height:6px;border-radius:50%;background:#8a7a96;opacity:0;animation:sm 1.4s ease-out}
+@keyframes sm{20%{opacity:.7}100%{transform:translateY(-30px) scale(3);opacity:0}}
+.tier{height:58px;border-radius:14px;margin:0 auto;position:relative}
+.t1{width:62%;background:linear-gradient(#fff,#f7d3df);border-bottom:6px solid #e5a3b8}
+.t2{width:100%;height:70px;background:linear-gradient(#fdeed6,#f4d3a7);border-bottom:6px solid var(--gold);margin-top:-4px}
+.t1::before,.t2::before{content:"";position:absolute;inset:0 0 auto;height:16px;border-radius:14px 14px 40% 40%;background:#fff}
+.plate{width:118%;margin:0 -9%;height:16px;border-radius:50%;background:linear-gradient(#fff,#e9dff5);box-shadow:0 10px 20px rgba(58,36,71,.18)}
+#wish{min-height:3.6em;font-family:var(--display);font-size:1.35rem;color:var(--ink)}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+
+/* GALLERY */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr);gap:22px}}
+.frame{padding:8px 8px 0;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 12px 26px rgba(58,36,71,.12);min-height:0;display:block;text-align:center}
+.frame:nth-child(odd){transform:rotate(-1.2deg)}.frame:nth-child(even){transform:rotate(1.2deg)}
+.frame:hover{background:#fff;transform:rotate(0) scale(1.02)}
+.frame img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:2px}
+.frame small{display:block;padding:8px 0;color:var(--soft);font-size:.85rem;line-height:1.3}
+#lb{position:fixed;inset:0;z-index:50;background:rgba(30,16,44,.9);display:none;place-items:center;padding:20px}
+#lb.on{display:grid}#lb figure{margin:0;max-width:min(92vw,520px);color:#fff;text-align:center}
+#lb img{max-width:100%;max-height:70vh;border-radius:6px}
+#lb .x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);inset-inline-end:14px;color:#fff;border-color:#fff;width:48px;padding:0;font-size:1.4rem}
+
+/* LETTER */
+#letter{background:var(--bg2)}
+.paper{background:#fffdf8;border:1px solid var(--line);border-radius:10px;padding:clamp(22px,6vw,48px);box-shadow:0 20px 40px rgba(58,36,71,.12);text-align:start;font-family:var(--display);font-size:1.2rem;line-height:2}
+html[lang=en] .paper{font-size:1.35rem;line-height:1.7}
+.paper p{opacity:0;transform:translateY(8px);transition:opacity 1s,transform 1s}
+.paper.show p{opacity:1;transform:none}
+.paper.show p:nth-child(2){transition-delay:.9s}.paper.show p:nth-child(3){transition-delay:1.8s}.paper.show p:nth-child(4){transition-delay:2.7s}
+.paper.instant p{transition:none}
+.sign{text-align:end;color:var(--gold)}
+
+/* MEMORIES */
+.mem{display:grid;gap:14px;margin-top:28px;text-align:start}
+@media(min-width:700px){.mem{grid-template-columns:1fr 1fr}}
+.mc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;transition:transform .25s,box-shadow .25s}
+.mc:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(58,36,71,.12)}
+.mc time{color:var(--gold);font-size:.9rem}.mc h3{margin:.1em 0 .3em}.mc p{margin:0;color:var(--soft)}
+
+/* FINALE */
+#finale{min-height:90svh;display:grid;place-items:center;color:var(--on-night);background:radial-gradient(700px 420px at 50% 30%,#7a4a9a,transparent 70%),linear-gradient(180deg,var(--night2),var(--night1))}
+#finale h2{color:var(--on-night)}#finale .lead{color:#e7d6f3}
+#finale button{color:var(--on-night)}#finale .primary{background:var(--gold);color:#2a1840;border-color:var(--gold)}
+.row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
+.toast{min-height:1.6em;margin-top:12px;color:#f6dfae;font-size:.95rem}
+.hide{display:none!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.paper p{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<script>
+/* =====================================================================
+   CONFIG — everything the customer edits lives here. Sample text only.
+   ===================================================================== */
+const CONFIG = {
+  recipient: { ar: "ليلى", en: "Layla" },          // SAMPLE name
+  sender:    { ar: "من يحبّك", en: "Someone who loves you" }, // SAMPLE
+  defaultLang: "ar",                                // "ar" or "en"
+  birthday: "",            // e.g. "2027-03-14T00:00:00" — leave "" until you know the real date
+  utcOffset: "+02:00",     // timezone of the birthday as a UTC offset, e.g. "+02:00"
+  sections: { countdown: true, cake: true, gallery: true, letter: true, memories: true },
+  theme: { gold: "#b8924f", ink: "#3a2447", blush: "#fbe3ea", lavender: "#e3dbf7", cream: "#fff6ee" },
+  music: "",               // path to an audio file you add, e.g. "music/song.mp3". Empty = no music button
+  whatsapp: { enabled: true, number: "" }, // number in international format digits only, or "" to pick a contact
+  text: {
+    ar: {
+      gateTitle: "مفاجأة صغيرة لـ {name}", gateSub: "شيء صُنع لكِ وحدك.", open: "افتح مفاجأتك 🎁", skip: "تخطَّ إلى المحتوى",
+      heroTitle: "عيد ميلاد سعيد", heroMsg: "اليوم ليس يوماً عادياً. هو اليوم الذي بدأت فيه حكايةٌ جعلت العالم أدفأ.", explore: "استكشفي المفاجأة",
+      cdTitle: "العدّ التنازلي", cdUnits: ["يوم","ساعة","دقيقة","ثانية"], cdNone: "أضيفوا تاريخ عيد الميلاد في ملف الإعدادات ليبدأ العدّ.", cdBad: "تاريخ غير صالح. تحقّقوا من إعداد birthday.", cdPast: "🎉 حان وقت الاحتفال! كل عام وأنتِ بخير.",
+      cakeTitle: "أطفئي الشموع وتمنّي أمنية", cakeHint: "المسي كل شمعة لتُطفئيها.", relight: "أشعلي الشموع من جديد", wish: "كل عام وأنتِ بخير يا {name}! تحققت أمنيتك بإذن الله ✨",
+      galTitle: "ألبوم الذكريات", galHint: "صور تجريبية للاستبدال بصوركم.", close: "إغلاق",
+      letterTitle: "رسالة إليكِ", unfold: "اقرئي الرسالة كاملة",
+      memTitle: "ذكريات خاصة",
+      finTitle: "كل عام وأنتِ أجمل ما في أيامنا", finMsg: "أتمنى لكِ عاماً يشبه قلبك: دافئاً وواسعاً ومليئاً بالنور.", replay: "أعيدي المفاجأة", share: "شاركي عبر واتساب", copy: "انسخي الرابط", copied: "تم نسخ الرابط ✓", copyFail: "تعذّر النسخ. انسخوا الرابط من شريط العنوان.", shareMsg: "مفاجأة عيد ميلاد من أجلك 🎂", sound: "الموسيقى", lang: "English",
+      letter: ["عزيزتي {name}،","في كل عام أتأمل كم تغيّر العالم حين دخلتِ إليه، وكم صار أجمل بضحكتك.","شكراً لأنك تكونين دائماً الصدر الذي نلجأ إليه والضوء الذي لا ينطفئ.","اجعلي هذا العام صفحةً جديدة من أحلامك."]
+    },
+    en: {
+      gateTitle: "A little surprise for {name}", gateSub: "Made just for you.", open: "Open Your Surprise 🎁", skip: "Skip to the content",
+      heroTitle: "Happy Birthday", heroMsg: "Today is not an ordinary day. It is the day a story began that made the world a little warmer.", explore: "Explore your surprise",
+      cdTitle: "Countdown", cdUnits: ["Days","Hours","Minutes","Seconds"], cdNone: "Add the birthday date in the config file to start the countdown.", cdBad: "Invalid date. Check the birthday setting.", cdPast: "🎉 Time to celebrate! Happy birthday.",
+      cakeTitle: "Make a wish and blow out the candles", cakeHint: "Tap each candle to blow it out.", relight: "Light the candles again", wish: "Happy birthday, {name}! May your wish come true ✨",
+      galTitle: "Memory gallery", galHint: "Placeholder pictures. Replace them with your own.", close: "Close",
+      letterTitle: "A letter for you", unfold: "Show the full letter",
+      memTitle: "Special memories",
+      finTitle: "Happy birthday to the brightest part of our days", finMsg: "I wish you a year like your heart: warm, wide and full of light.", replay: "Replay the surprise", share: "Share on WhatsApp", copy: "Copy link", copied: "Link copied ✓", copyFail: "Couldn’t copy. Copy the link from the address bar.", shareMsg: "A birthday surprise made for you 🎂", sound: "Music", lang: "العربية",
+      letter: ["Dear {name},","Every year I think about how much brighter the world became when you arrived.","Thank you for being the shoulder we lean on and the light that never dims.","May this year be a fresh page for all your dreams."]
+    }
+  },
+  memories: [   // SAMPLE cards — edit freely (3 to 5 works best)
+    { date: "", ar: { title: "أول ضحكة", text: "ذلك اليوم الذي لم نتوقف فيه عن الضحك." }, en: { title: "The first laugh", text: "The day we couldn’t stop laughing." } },
+    { date: "", ar: { title: "رحلة لا تُنسى", text: "طريق طويل وأغانٍ كثيرة وذكرى واحدة جميلة." }, en: { title: "An unforgettable trip", text: "A long road, many songs, one lovely memory." } },
+    { date: "", ar: { title: "كلمة طيبة", text: "جملة قلتِها في وقتها وبقيت معي." }, en: { title: "A kind word", text: "A sentence you said at the right time, and it stayed." } }
+  ],
+  gallery: [    // SAMPLE placeholders. Replace src with your own files, e.g. "photos/1.jpg"
+    { src: "", alt: { ar: "صورة تجريبية ١", en: "Placeholder photo 1" }, caption: { ar: "ذكرى ١", en: "Memory 1" }, hue: 340 },
+    { src: "", alt: { ar: "صورة تجريبية ٢", en: "Placeholder photo 2" }, caption: { ar: "ذكرى ٢", en: "Memory 2" }, hue: 270 },
+    { src: "", alt: { ar: "صورة تجريبية ٣", en: "Placeholder photo 3" }, caption: { ar: "ذكرى ٣", en: "Memory 3" }, hue: 30 },
+    { src: "", alt: { ar: "صورة تجريبية ٤", en: "Placeholder photo 4" }, caption: { ar: "ذكرى ٤", en: "Memory 4" }, hue: 300 }
+  ]
+};
+</script>
+
+<div class="top">
+  <button id="langBtn" type="button"></button>
+  <button id="musicBtn" type="button" class="hide" aria-pressed="false"></button>
+</div>
+
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gTitle">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="env" aria-hidden="true"><div class="back"></div><div class="card">✦</div><div class="front"></div><div class="flap"></div><div class="seal">♥</div></div>
+  <h2 id="gTitle"></h2><p id="gSub"></p>
+  <div class="gate-btns"><button id="openBtn" class="primary" type="button"></button><button id="skipBtn" class="skip" type="button"></button></div>
+</div>
+
+<main id="main" inert>
+  <section id="hero"><span class="orb" style="width:120px;height:120px;top:12%;inset-inline-start:6%;background:var(--bg2)"></span><span class="orb" style="width:70px;height:70px;bottom:14%;inset-inline-end:10%;background:var(--bg3);animation-delay:-3s"></span>
+    <div class="wrap"><div class="ring" aria-hidden="true">✦</div><h1><span id="heroT"></span><span class="hero-name" id="heroN"></span></h1><p class="lead" id="heroM"></p><button class="primary" id="exploreBtn" type="button"></button></div></section>
+  <section id="count" class="sec-countdown"><div class="wrap"><h2 id="cdT"></h2><div class="cd" id="cd" role="timer" aria-live="off"></div><p class="note" id="cdMsg" aria-live="polite"></p></div></section>
+  <section id="cake" class="sec-cake"><div class="wrap"><h2 id="cakeT"></h2><p class="note" id="cakeH"></p>
+    <div class="cakebox"><div class="candles" id="candles"></div><div class="tier t1"></div><div class="tier t2"></div><div class="plate"></div></div>
+    <p id="wish" aria-live="polite"></p><button id="relight" type="button" class="hide"></button></div></section>
+  <section id="gallery" class="sec-gallery"><div class="wrap" style="max-width:860px"><h2 id="galT"></h2><p class="note" id="galH"></p><div class="grid" id="grid"></div></div></section>
+  <section id="letter" class="sec-letter"><div class="wrap"><h2 id="letT"></h2><div class="paper" id="paper"></div><div class="row"><button id="unfoldBtn" type="button"></button></div></div></section>
+  <section id="memories" class="sec-memories"><div class="wrap" style="max-width:860px"><h2 id="memT"></h2><div class="mem" id="mem"></div></div></section>
+  <section id="finale"><div class="wrap"><h2 id="finT"></h2><p class="lead" id="finM"></p><p id="from" style="color:var(--gold);font-family:var(--display);font-size:1.2rem"></p>
+    <div class="row"><button class="primary" id="replayBtn" type="button"></button><button id="waBtn" type="button"></button><button id="copyBtn" type="button"></button></div><div class="toast" id="toast" role="status" aria-live="polite"></div></div></section>
+</main>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="Photo"><button class="x" id="lbX" type="button" aria-label="Close">✕</button><figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<audio id="aud" loop preload="none"></audio>
+
+<script>
+(function(){
+const C=CONFIG,$=id=>document.getElementById(id),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let lang=C.defaultLang==="en"?"en":"ar",lastFocus=null;
+const root=document.documentElement;
+Object.entries({gold:"--gold",ink:"--ink",blush:"--bg2",lavender:"--bg3",cream:"--bg"}).forEach(([k,v])=>C.theme[k]&&root.style.setProperty(v,C.theme[k]));
+const t=()=>C.text[lang],nm=()=>C.recipient[lang],f=s=>s.replace(/\{name\}/g,nm());
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function placeholder(h,label){const s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${h},70%,88%)"/><stop offset="1" stop-color="hsl(${(h+50)%360},55%,78%)"/></linearGradient></defs><rect width="400" height="500" fill="url(#g)"/><circle cx="200" cy="210" r="70" fill="rgba(255,255,255,.55)"/><text x="200" y="400" text-anchor="middle" font-family="serif" font-size="26" fill="rgba(58,36,71,.6)">${label}</text></svg>`;return "data:image/svg+xml;utf8,"+encodeURIComponent(s)}
+
+function render(){
+  const T=t();
+  root.lang=lang;root.dir=lang==="ar"?"rtl":"ltr";
+  document.title=lang==="ar"?"عالَمٌ صغير لنا":"A Little World of Us";
+  $("gTitle").textContent=f(T.gateTitle);$("gSub").textContent=T.gateSub;$("openBtn").textContent=T.open;$("skipBtn").textContent=T.skip;
+  $("heroT").textContent=T.heroTitle;$("heroN").textContent=nm();$("heroM").textContent=T.heroMsg;$("exploreBtn").textContent=T.explore;
+  $("cdT").textContent=T.cdTitle;$("cakeT").textContent=T.cakeTitle;$("cakeH").textContent=T.cakeHint;$("relight").textContent=T.relight;
+  $("galT").textContent=T.galTitle;$("galH").textContent=T.galHint;$("lbX").setAttribute("aria-label",T.close);
+  $("letT").textContent=T.letterTitle;$("unfoldBtn").textContent=T.unfold;$("memT").textContent=T.memTitle;
+  $("finT").textContent=T.finTitle;$("finM").textContent=T.finMsg;$("from").textContent=C.sender[lang];
+  $("replayBtn").textContent=T.replay;$("waBtn").textContent=T.share;$("copyBtn").textContent=T.copy;
+  $("langBtn").textContent=T.lang;$("langBtn").setAttribute("lang",lang==="ar"?"en":"ar");
+  $("musicBtn").textContent="♪ "+T.sound;
+  $("paper").innerHTML=T.letter.map(p=>`<p>${esc(f(p))}</p>`).join("")+`<p class="sign">${esc(C.sender[lang])}</p>`;
+  if(paperShown)showPaper(true);
+  $("grid").innerHTML=C.gallery.map((g,i)=>`<button class="frame" type="button" data-i="${i}" aria-label="${esc(g.alt[lang])}"><img src="${g.src||placeholder(g.hue||330,"✦")}" alt="${esc(g.alt[lang])}" loading="lazy"><small>${esc(g.caption[lang])}</small></button>`).join("");
+  $("mem").innerHTML=C.memories.map(m=>`<article class="mc">${m.date?`<time>${esc(m.date)}</time>`:""}<h3>${esc(m[lang].title)}</h3><p>${esc(m[lang].text)}</p></article>`).join("");
+  if(!candlesBuilt)buildCandles();
+  if(allOut())$("wish").textContent=f(T.wish);
+  tick();
+}
+
+/* sections / optional features */
+Object.entries(C.sections).forEach(([k,v])=>{if(!v){const s=document.querySelector(".sec-"+k);s&&s.classList.add("hide")}});
+$("waBtn").classList.toggle("hide",!C.whatsapp.enabled);
+if(C.music){$("aud").src=C.music;$("musicBtn").classList.remove("hide")}
+
+/* gate */
+function enter(){const g=$("gate");g.classList.add("gone");$("main").removeAttribute("inert");$("hero").scrollIntoView();setTimeout(()=>$("exploreBtn").focus({preventScroll:true}),50)}
+$("openBtn").onclick=()=>{const g=$("gate");g.classList.add("opening");setTimeout(()=>{enter();burst(60)},reduce?0:1300)};
+$("skipBtn").onclick=enter;
+$("openBtn").focus();
+$("exploreBtn").onclick=()=>($("count").classList.contains("hide")?$("cake"):$("count")).scrollIntoView({behavior:reduce?"auto":"smooth"});
+
+/* language */
+$("langBtn").onclick=()=>{lang=lang==="ar"?"en":"ar";render()};
+
+/* countdown */
+const unitsMs=[864e5,36e5,6e4,1e3];
+function buildCd(){$("cd").innerHTML=[0,1,2,3].map(i=>`<div><b data-u="${i}">--</b><span>${esc(t().cdUnits[i])}</span></div>`).join("")}
+function tick(){
+  const box=$("cd"),msg=$("cdMsg");
+  if(!C.birthday){box.classList.add("hide");msg.textContent=t().cdNone;return}
+  const target=new Date(C.birthday+(/[zZ]|[+-]\d\d:\d\d$/.test(C.birthday)?"":C.utcOffset));
+  if(isNaN(target)){box.classList.add("hide");msg.textContent=t().cdBad;return}
+  let d=target-Date.now();
+  if(d<=0){box.classList.add("hide");msg.textContent=t().cdPast;return}
+  box.classList.remove("hide");msg.textContent="";
+  if(box.children.length!==4||box.querySelector("span").textContent!==t().cdUnits[0])buildCd();
+  const days=Math.floor(d/864e5),h=Math.floor(d%864e5/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);
+  [days,h,m,s].forEach((v,i)=>box.querySelector(`[data-u="${i}"]`).textContent=String(v).padStart(i?2:1,"0"));
+}
+setInterval(tick,1000);
+
+/* cake */
+let candlesBuilt=false;const N=5;
+function allOut(){const c=document.querySelectorAll(".candle");return c.length>0&&[...c].every(x=>x.classList.contains("out"))}
+function buildCandles(){candlesBuilt=true;
+  $("candles").innerHTML=Array.from({length:N},(_,i)=>`<button class="candle" type="button" aria-pressed="false" aria-label="${i+1}"><span class="fl"></span><i></i></button>`).join("");
+  $("candles").addEventListener("click",e=>{const b=e.target.closest(".candle");if(!b||b.classList.contains("out"))return;
+    b.classList.add("out");b.setAttribute("aria-pressed","true");
+    if(allOut()){$("wish").textContent=f(t().wish);$("relight").classList.remove("hide");burst(140);$("relight").focus()}})}
+$("relight").onclick=()=>{document.querySelectorAll(".candle").forEach(c=>{c.classList.remove("out");c.setAttribute("aria-pressed","false")});$("wish").textContent="";$("relight").classList.add("hide");document.querySelector(".candle").focus()};
+
+/* lightbox */
+$("grid").addEventListener("click",e=>{const b=e.target.closest(".frame");if(!b)return;lastFocus=b;
+  const img=b.querySelector("img");$("lbImg").src=img.src;$("lbImg").alt=img.alt;$("lbCap").textContent=b.querySelector("small").textContent;
+  $("lb").classList.add("on");$("lbX").focus()});
+function closeLb(){$("lb").classList.remove("on");lastFocus&&lastFocus.focus()}
+$("lbX").onclick=closeLb;$("lb").addEventListener("click",e=>{if(e.target.id==="lb")closeLb()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("lb").classList.contains("on"))closeLb();
+  if(e.key==="Tab"&&$("lb").classList.contains("on")){e.preventDefault();$("lbX").focus()}});
+
+/* letter */
+let paperShown=false;
+function showPaper(instant){paperShown=true;const p=$("paper");if(instant)p.classList.add("instant");p.classList.add("show")}
+new IntersectionObserver((en,o)=>{if(en[0].isIntersecting){showPaper(reduce);o.disconnect()}},{threshold:.35}).observe($("paper"));
+$("unfoldBtn").onclick=()=>showPaper(true);
+
+/* music */
+$("musicBtn").onclick=()=>{const a=$("aud"),b=$("musicBtn");
+  if(a.paused){a.play().then(()=>b.setAttribute("aria-pressed","true")).catch(()=>{$("toast").textContent="Audio file not found."})}
+  else{a.pause();b.setAttribute("aria-pressed","false")}};
+
+/* share */
+$("waBtn").onclick=()=>{const n=String(C.whatsapp.number||"").replace(/\D/g,"");
+  const url=`https://wa.me/${n}?text=${encodeURIComponent(t().shareMsg+" "+location.href)}`;window.open(url,"_blank","noopener")};
+$("copyBtn").onclick=async()=>{let ok=false;
+  try{await navigator.clipboard.writeText(location.href);ok=true}catch(e){
+    try{const ta=document.createElement("textarea");ta.value=location.href;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();ok=document.execCommand("copy");ta.remove()}catch(_){}}
+  $("toast").textContent=ok?t().copied:t().copyFail;setTimeout(()=>$("toast").textContent="",3500)};
+
+/* replay */
+$("replayBtn").onclick=()=>{window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+  const g=$("gate");$("main").setAttribute("inert","");g.classList.remove("opening","gone");$("openBtn").focus();
+  $("paper").classList.remove("show","instant");paperShown=false;
+  new IntersectionObserver((en,o)=>{if(en[0].isIntersecting){showPaper(reduce);o.disconnect()}},{threshold:.35}).observe($("paper"));
+  $("relight").onclick()};
+
+/* confetti (light: canvas, stops by itself) */
+const cv=$("confetti"),cx=cv.getContext("2d");let parts=[],raf=0;
+function size(){cv.width=innerWidth;cv.height=innerHeight}size();addEventListener("resize",size);
+function burst(n){if(reduce)return;const cols=["#f4a7bf","#c9b6f2","#e8c98a","#fff","#f7d3df"];
+  for(let i=0;i<n;i++)parts.push({x:cv.width/2,y:cv.height*.55,vx:(Math.random()-.5)*14,vy:-Math.random()*13-3,r:Math.random()*5+3,c:cols[i%5],a:Math.random()*6,life:0});
+  if(!raf)raf=requestAnimationFrame(loop)}
+function loop(){cx.clearRect(0,0,cv.width,cv.height);
+  parts=parts.filter(p=>p.life<150&&p.y<cv.height+20);
+  parts.forEach(p=>{p.life++;p.vy+=.32;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.a+=.15;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.globalAlpha=Math.max(0,1-p.life/150);cx.fillStyle=p.c;cx.fillRect(-p.r,-p.r/2,p.r*2,p.r);cx.restore()});
+  raf=parts.length?requestAnimationFrame(loop):0;if(!raf)cx.clearRect(0,0,cv.width,cv.height)}
+const fin=new IntersectionObserver(en=>{if(en[0].isIntersecting)burst(70)},{threshold:.6});fin.observe($("finale"));
+
+buildCd();render();
+})();
+</script>
+</body>
+</html>
